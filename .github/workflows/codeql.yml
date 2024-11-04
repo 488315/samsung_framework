@@ -1,4 +1,4 @@
-name: "CodeQL Advanced for Java and Kotlin (Decompiled Framework)"
+name: "CodeQL Advanced for Decompiled Java and Kotlin"
 
 on:
   push:
@@ -10,7 +10,7 @@ on:
 
 jobs:
   analyze:
-    name: Analyze (${{ matrix.language }})
+    name: Analyze Decompiled Java and Kotlin
     runs-on: ubuntu-latest
     permissions:
       security-events: write
@@ -21,9 +21,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        include:
-          - language: java-kotlin
-            build-mode: manual
+        language: [ 'java-kotlin' ]
 
     steps:
     - name: Checkout repository
@@ -33,8 +31,7 @@ jobs:
       uses: github/codeql-action/init@v3
       with:
         languages: ${{ matrix.language }}
-        build-mode: ${{ matrix.build-mode }}
-        queries: +security-extended,security-and-quality
+        # No build mode set to skip the build step for decompiled files
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v3
